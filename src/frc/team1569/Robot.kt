@@ -1,25 +1,31 @@
 package frc.team1569
 
-import edu.wpi.first.wpilibj.IterativeRobot
+import edu.wpi.first.wpilibj.DriverStation
+import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 
-import frc.team1569.commands.ExampleCommand
-import frc.team1569.subsystems.ExampleSubsystem
+import frc.team1569.commands.*
+import frc.team1569.subsystems.*
 
-class Robot: IterativeRobot() {
+class Robot: TimedRobot() {
   /**
    * "Static" class members
    */
   companion object {
     val exampleSubsystem: ExampleSubsystem = ExampleSubsystem()
+    val driveTrainSubsystem: DriveTrainSubsystem = DriveTrainSubsystem()
+    val liftSubsystem: LiftSubsystem = LiftSubsystem()
+    val climbSubsystem: ClimbSubsystem = ClimbSubsystem()
+    val clawSubsystem: ClawSubsystem = ClawSubsystem()
+    var gameData: String? = null
     var oi: OI? = null
   }
 
   var autonomousCommand: Command? = null
-  var chooser: SendableChooser<Command> = SendableChooser()
+  var autoChooser: SendableChooser<Command> = SendableChooser()
 
   /**
    * This function is run when the robot is first started up and should be
@@ -27,9 +33,15 @@ class Robot: IterativeRobot() {
    */
   override fun robotInit() {
     oi = OI()
-    chooser.addDefault("Default Auto", ExampleCommand())
-    // chooser.addObject("My Auto", MyAutoCommand())
-    SmartDashboard.putData("Auto mode", chooser)
+    autoChooser.addDefault("Default Auto", ExampleCommand())
+    autoChooser.addDefault("Default Auto", AutoDriveAcrossLine())
+    autoChooser.addObject("DriveAcrossLine", AutoDriveAcrossLine())
+    autoChooser.addObject("DriveSwitchLeft", AutoDriveSwitchLeft())
+    autoChooser.addObject("DriveSwitchRight", AutoDriveSwitchRight())
+    autoChooser.addObject("DriveSwitchCenter", AutoDriveSwitchCenter())
+    autoChooser.addObject("DriveScaleRight", AutoDriveScaleRight())
+    autoChooser.addObject("DriveScaleLeft", AutoDriveScaleLeft())
+    SmartDashboard.putData("Auto mode", autoChooser)
   }
 
   /**
@@ -39,9 +51,7 @@ class Robot: IterativeRobot() {
    */
   override fun disabledInit() {}
 
-  override fun disabledPeriodic () {
-    Scheduler.getInstance().run()
-  }
+  override fun disabledPeriodic () = Scheduler.getInstance().run()
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -55,40 +65,31 @@ class Robot: IterativeRobot() {
    * to the switch structure below with additional strings & commands.
    */
   override fun autonomousInit() {
-    /*
-     * val autoSelected: String = SmartDashboard.getString("Auto Selector", "Default")
-     * autonomousCommand = when (autoSelected) {
-     *   "My Auto" -> MyAutoCommand()
-     *   "Default Auto" -> ExampleCommand()
-     *   else -> ExampleCommand()
-     * }
-     */
-
-    // schedule the autonomous command (example)
-    chooser.selected?.start()
+    autonomousCommand = autoChooser.selected
+    gameData = DriverStation.getInstance().gameSpecificMessage
+    autoChooser.selected?.start()
   }
 
   /**
    * This function is called periodically during autonomous
    */
-  override fun autonomousPeriodic() {
-    Scheduler.getInstance().run()
-  }
+  override fun autonomousPeriodic() = Scheduler.getInstance().run()
 
   override fun teleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    autonomousCommand?.start()
+    //TODO: This line needed to be changed to .cancel() from .start()
+    autonomousCommand?.cancel()
+
+    TeleopCommand().start()
   }
 
   /**
    * This function is called periodically during operator control
    */
-  override fun teleopPeriodic() {
-    Scheduler.getInstance().run()
-  }
+  override fun teleopPeriodic() = Scheduler.getInstance().run()
 
   /**
    * This function is called periodically during test mode

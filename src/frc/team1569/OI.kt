@@ -1,5 +1,7 @@
 package frc.team1569
 
+import edu.wpi.cscore.UsbCamera
+import edu.wpi.first.wpilibj.CameraServer
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.buttons.Button
 import edu.wpi.first.wpilibj.buttons.JoystickButton
@@ -38,4 +40,36 @@ class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(ExampleCommand())
+  private var stickLeft: Joystick
+  private var stickRight: Joystick
+  private var stickManipulate1: Joystick
+  private var stickManipulate2: Joystick
+  private var camera: UsbCamera
+  private var camera1: UsbCamera
+
+  init {
+    this.stickLeft = Joystick(RobotMap.joystickLeftPort)
+    this.stickRight = Joystick(RobotMap.joystickRightPort)
+    this.stickManipulate1 = Joystick(RobotMap.joystickManipulator0Port)
+    this.stickManipulate2 = Joystick(RobotMap.joystickManipulator1Port)
+
+    this.camera = CameraServer.getInstance().startAutomaticCapture()
+    this.camera.setResolution(640, 480)
+    this.camera.setFPS(15)
+    this.camera.setExposureAuto()
+
+    this.camera1 = CameraServer.getInstance().startAutomaticCapture()
+    this.camera1.setResolution(640, 480)
+    this.camera1.setFPS(15)
+    this.camera1.setExposureAuto()
+  }
+
+  fun getLeftJoystick(): Joystick = this.stickLeft
+
+  fun getRightJoystick(): Joystick = this.stickRight
+
+  fun getManipulator1Joystick(): Joystick = this.stickManipulate1
+
+  fun getManipulator2Joystick(): Joystick = this.stickManipulate2
+
 }

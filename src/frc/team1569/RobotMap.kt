@@ -7,13 +7,42 @@ package frc.team1569
  * floating around.
  */
 object RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // val leftMotor = 1
-  // val rightMotor = 2
+    // Joystick constants
+    const val joystickLeftPort = 1
+    const val joystickRightPort = 0
+    const val joystickManipulator0Port = 2
+    const val joystickManipulator1Port = 3
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // val rangefinderPort = 1
-  // val rangefinderModule = 1
+    //Motor constants
+    const val driveTrainLeft0Port = 0
+    const val driveTrainLeft1Port = 1
+    const val driveTrainRight0Port = 8
+    const val driveTrainRight1Port = 9
+
+    const val liftPort0 = 5
+    const val liftPort1 = 6
+    const val clawPort = 4
+
+    const val climbTapePort = 2
+    const val climbWinchPort = 3
+
+    //Button constants
+    const val extendPistonPort = 1
+    const val retractPistonPort = 3
+
+    const val clawRotatePos = 4
+    const val clawRotateNeg = 5
+
+    const val tapeOut = 6
+    const val tapeIn = 7
+
+    const val winchIn = 10
+    const val winchOut = 9
+
+    //Pneumatics constants
+    const val solenoid0OpenPort = 0
+    const val solenoid0ClosePort = 1
+
+    //Sensors constants
+    const val reedSwitchPort = 2
 }
