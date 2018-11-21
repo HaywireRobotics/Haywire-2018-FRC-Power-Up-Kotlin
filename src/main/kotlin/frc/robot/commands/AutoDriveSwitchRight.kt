@@ -6,6 +6,7 @@ import frc.team1569.Robot
 class AutoDriveSwitchRight : CommandGroup() {
   init {
     //Add commands here using: AddParallel or AddSequential
+    if (Robot.gameData != null) {
     if (Robot.gameData!![0] == 'R') {
       addParallel(LiftToSwitchAndHold())
       addSequential(DriveForward(2.3, 0.7))
@@ -21,4 +22,5 @@ class AutoDriveSwitchRight : CommandGroup() {
       addSequential(DriveForward(5.0, 0.5))
     }
   }
+}
 }

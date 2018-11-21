@@ -6,6 +6,7 @@ import frc.team1569.Robot
 
 class AutoDriveScaleLeft : CommandGroup() {
   init {
+    if (Robot.gameData != null) {
     if (Robot.gameData!![1] == 'L') {
       addSequential(DriveForward(3.2, 0.8))
       addSequential(DriveRightTurn(77.0))
@@ -20,4 +21,5 @@ class AutoDriveScaleLeft : CommandGroup() {
       addSequential(DriveForward(2.0, 0.8))
     }
   }
+}
 }

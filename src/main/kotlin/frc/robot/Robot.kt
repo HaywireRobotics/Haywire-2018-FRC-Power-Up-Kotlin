@@ -33,7 +33,6 @@ class Robot: TimedRobot() {
    */
   override fun robotInit() {
     oi = OI()
-    autoChooser.addDefault("Default Auto", ExampleCommand())
     autoChooser.addDefault("Default Auto", AutoDriveAcrossLine())
     autoChooser.addObject("DriveAcrossLine", AutoDriveAcrossLine())
     autoChooser.addObject("DriveSwitchLeft", AutoDriveSwitchLeft())

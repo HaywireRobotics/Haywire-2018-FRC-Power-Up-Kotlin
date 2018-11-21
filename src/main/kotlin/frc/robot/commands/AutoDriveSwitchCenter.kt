@@ -6,6 +6,7 @@ import frc.team1569.Robot
 
 class AutoDriveSwitchCenter : CommandGroup() {
   init {
+    if (Robot.gameData != null) {
     if (Robot.gameData!![0] == 'L') {
       addSequential(DriveForward(1.0, 0.5))
       addSequential(DriveLeftTurn(-32.5))
@@ -30,4 +31,5 @@ class AutoDriveSwitchCenter : CommandGroup() {
       addSequential(DriveForward(-1.0, 0.5))
     }
   }
+}
 }
